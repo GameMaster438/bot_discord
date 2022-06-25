@@ -3,6 +3,8 @@ const Event = require("../../Structure/Event")
 
 module.exports = new Event("messageCreate", async (bot, message) => {
 
+    const db = bot.db
+
     const prefix = "!"
 
     let messageArray = message.content.split(" ");
@@ -13,5 +15,5 @@ module.exports = new Event("messageCreate", async (bot, message) => {
     if(!message.content.startsWith("!")) return;
     if(!commandFile) return message.reply(`⚠️ Cette Commande n'existe pas ! ⚠️`)
 
-    commandFile.run(bot, message, args)
+    commandFile.run(bot, message, args, db)
 })
