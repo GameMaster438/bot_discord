@@ -1,8 +1,10 @@
 const Discord = require('discord.js')
+const mysql = require("mysql")
 const fs = require("fs")
 const intents = new Discord.Intents(32767)
 const Command = require('./Command')
 const Event = require('./Event')
+const Database = require("./Database")
 
 class Client extends Discord.Client {
 
@@ -15,6 +17,7 @@ class Client extends Discord.Client {
         */
 
         this.commands = new Discord.Collection()
+        this.db = Database;
         this.color = "#FFA500"
     }
 
