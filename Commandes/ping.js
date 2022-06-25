@@ -5,7 +5,7 @@ module.exports = new Command({
 
     name: "ping",
     description: "Commande pour Connaître le Ping du Bot",
-    utilisation: "!ping",
+    utilisation: "ping",
     permission: "Aucune",
     category: "Information",
 
