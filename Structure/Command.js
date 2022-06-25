@@ -1,15 +1,17 @@
 /** @format */
 
 const Client = require('./Client')
+const mysql = require("mysql")
 const Discord = require("discord.js")
 
 /**
  * @param {Client} bot 
  * @param {Discord.Message | Discord.Interaction} message 
- * @param {string[]} args 
+ * @param {string[]} args
+ * @param {mysql.Connection} db 
 */
 
-function RunFunction(bot, message, args) {}
+function RunFunction(bot, message, args, db) {}
 
 class Command {
 
