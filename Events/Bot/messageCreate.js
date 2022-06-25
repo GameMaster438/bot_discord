@@ -5,15 +5,28 @@ module.exports = new Event("messageCreate", async (bot, message) => {
 
     const db = bot.db
 
-    const prefix = "!"
+    db.query(`SELECT * FROM serveur WHERE guildID = ${message.guild.id}`, async (err, req) => {
 
-    let messageArray = message.content.split(" ");
-    let command = messageArray[0]
-    let args = messageArray.slice(1);
-    let commandFile = bot.commands.get(command.slice(prefix.length))
+        if(req.length < 1) {
 
-    if(!message.content.startsWith("!")) return;
-    if(!commandFile) return message.reply(`⚠️ Cette Commande n'existe pas ! ⚠️`)
+            let sql = `INSERT INTO serveur (guildID, prefix) VALUES (${message.guild.id}, '/')`
+            db.query(sql, function(err) {
+                if(err) throw err;
+            })
 
-    commandFile.run(bot, message, args, db)
+            return message.reply(`⚠️ Veuillez Attendre l'Enregistrement de votre Serveur dans la Base de Données ! ⚠️`)
+        }
+
+        let prefix = req[0].prefix
+
+        let messageArray = message.content.split(" ");
+        let command = messageArray[0]
+        let args = messageArray.slice(1);
+        let commandFile = bot.commands.get(command.slice(prefix.length))
+    
+        if(!message.content.startsWith(prefix)) return;
+        if(!commandFile) return message.reply(`⚠️ Cette Commande n'existe pas ! ⚠️`)
+    
+        commandFile.run(bot, message, args, db)
+    })
 })
