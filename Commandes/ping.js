@@ -9,15 +9,24 @@ module.exports = new Command({
     permission: "Aucune",
     category: "Information",
 
-    async run(bot, message, args) {
-        
-        const startTime = Date.now()
+    async run(bot, message, args, db) {
 
-        await message.reply(`🔄 En Cours de Chargement...`).then(async msg => {
+        const startTimeDB = Date.now()
 
-            const endTime = Date.now()
+        db.query(`SELECT * FROM serveur WHERE guildID = ${message.guild.id}`, async (err, req) => {
 
-            await msg.edit(`**Latence du Bot:** \`${endTime - startTime} ms\`\n **Latence de l'API de Discord:** \`${bot.ws.ping} ms\``)
+            const endTimeDB = Date.now()
+
+            const startTime = Date.now()
+
+            await message.reply(`🔄 En Cours de Chargement...`).then(async msg => {
+
+                const endTime = Date.now()
+
+                await msg.edit(`**Latence du Bot:** \`${endTime - startTime} ms\`\n **Latence de l'API de Discord:** \`${bot.ws.ping} ms\`\n **Latence de la Base de Données:** \`${endTimeDB - startTimeDB} ms\``)
+            })
         })
+        
+        
     }
 })
